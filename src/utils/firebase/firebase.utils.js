@@ -80,7 +80,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo = {}) 
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 }
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -123,4 +123,17 @@ export const getCategoriesAndDocuments = async () => {
   // }, {});
 
   // return categoryMap;
+}
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth)
+      },
+      reject
+    );
+  });
 }
